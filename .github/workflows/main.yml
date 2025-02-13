@@ -1,0 +1,24 @@
+name: Notion News Automation
+on:
+  schedule:
+    - cron: '0 8 * * *'  # 每天 08:00 AM 執行
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install requests feedparser
+
+      - name: Run Python script
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}  # ✅ 讓 GitHub Actions 讀取 Secrets
+        run: python test.py
