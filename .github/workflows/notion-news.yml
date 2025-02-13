@@ -1,11 +1,14 @@
 name: Notion News Automation
+
 on:
   schedule:
-    - cron: '0 8 * * *'  # 每天 08:00 AM 執行
+    - cron: '0 8 * * *'  # 每天台灣時間 08:00 AM 自動執行
+  workflow_dispatch:  # 允許手動執行
 
 jobs:
   run-script:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -16,9 +19,9 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: pip install requests feedparser
+        run: pip install requests feedparser  # 安裝 Notion API 需要的套件
 
       - name: Run Python script
         env:
-          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}  # ✅ 讓 GitHub Actions 讀取 Secrets
-        run: python test.py
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}  # 從 GitHub Secrets 讀取 API 金鑰
+        run: python test.py  # 執行你的 Python 程式
