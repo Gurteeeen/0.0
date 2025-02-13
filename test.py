@@ -71,7 +71,6 @@ import feedparser  # 需要安裝 feedparser 套件
 from datetime import datetime
 
 # ✅ 設定 Notion API 金鑰 & 資料庫 ID
-NOTION_API_KEY = "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"
 DATABASE_ID = "197cc8ff5d1c80f08a8cc2e28a1e2ab3"
 
 # ✅ 設定請求標頭
