@@ -98,11 +98,6 @@ def add_news_to_notion(title, url, date):
         print(f"❌ 新增新聞失敗: {title}，錯誤碼: {response.status_code}")
         print("🔹 API 回應內容：", response.text.encode("utf-8", "ignore").decode("utf-8"))
 
-# ✅ 自動化流程（Google News）
-news_list = fetch_google_news()
-
-for news in news_list:
-    add_news_to_notion(news["title"], news["url"], news["date"])
 
 
 # ✅ 抓取多家公司新聞並寫入 Notion
