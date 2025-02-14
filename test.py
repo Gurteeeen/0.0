@@ -53,7 +53,7 @@ today_date = datetime.now().strftime("%Y-%m-%d")
 
 # ✅ 解析 RSS，篩選出「當天新聞」
 def get_today_news():
-    feed = feedparser.parse(rss_url)
+    feed = feedparser.parse(fectch_google_news)
     today_news = []
     
     for entry in feed.entries:
