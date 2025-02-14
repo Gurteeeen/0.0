@@ -4,13 +4,18 @@ NOTION_API_KEY = os.getenv("NOTION_API_KEY")  # 這樣 GitHub Actions 會自動�
 import requests
 import json
 
-
+# ✅ 設定 Notion API 金鑰 & 資料庫 ID
+DATABASE_ID = "197cc8ff5d1c80f08a8cc2e28a1e2ab3"
 
 import feedparser  # 需要安裝 feedparser 套件
 import urllib.parse
 from datetime import datetime
 
+# ✅ API 端點（確保 DATABASE_ID 正確）
+url = f"https://api.notion.com/v1/databases/{DATABASE_ID}"
 
+# ✅ 發送請求到 Notion API
+response = requests.get(url, headers=headers)
 
 # ✅ 設定請求標頭
 headers = {
