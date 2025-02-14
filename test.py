@@ -66,7 +66,7 @@ def get_today_news():
     for entry in feed.entries:
         # 🟢 確保 `published_parsed` 正確解析時間
             if hasattr(entry, 'published_parsed'):
-            news_date = datetime(*entry.published_parsed[:3]).strftime("%Y-%m-%d")
+                news_date = datetime(*entry.published_parsed[:3]).strftime("%Y-%m-%d")
             
             if news_date == today_date:  # 只抓當天的新聞
                 today_news.append({
