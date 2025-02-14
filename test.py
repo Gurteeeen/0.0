@@ -4,6 +4,7 @@ NOTION_API_KEY = os.getenv("NOTION_API_KEY")  # 這樣 GitHub Actions 會自動�
 import requests
 import json
 from datetime import datetime
+import urllib.parse
 
 # ✅ 設定 Notion API 金鑰 & 資料庫 ID
 DATABASE_ID = "197cc8ff5d1c80f08a8cc2e28a1e2ab3"
@@ -62,6 +63,7 @@ today_date = datetime.now().strftime("%Y-%m-%d")
 def get_today_news():
     feed = feedparser.parse(NEWS_FEED_URL)
     today_news = []
+    company_news_count = {company: 0 for company in COMPANIES}
     
     for entry in feed.entries:
         # 🟢 確保 `published_parsed` 正確解析時間
@@ -69,10 +71,15 @@ def get_today_news():
                 news_date = datetime(*entry.published_parsed[:3]).strftime("%Y-%m-%d")
             
             if news_date == today_date:  # 只抓當天的新聞
-                today_news.append({
-                    "title": entry.title,
-                    "url": entry.link,
-                    "date": news_date
+                for company in COMPANIES:
+                    if company in entry.title and company_news_count[company] < 2:
+                        today_news.append({
+                            "title": entry.title,
+                            "url": entry.link,
+                            "date": news_date
+                        })
+                        company_news_count[company] += 1
+                        break  # 防止一篇新聞被記錄多
                 })
 
     print(f"📅 今日篩選後的新聞數量：{len(today_news)}")  # Debug
