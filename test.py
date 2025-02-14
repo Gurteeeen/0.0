@@ -27,6 +27,12 @@ headers = {
 # ✅ 設定你要查詢的公司（台灣 + 國外）
 COMPANIES = ["Tesla", "Apple", "Microsoft", "Nvidia", "Amazon", "台積電", "鴻海", "聯發科", "長榮海運", "大立光"]
 
+
+# ✅ 產生 Google News RSS 搜尋 URL
+query = " OR ".join(COMPANIES)  # 讓 Google News RSS 搜尋這些關鍵字
+encoded_query = urllib.parse.quote(query)  # 轉換成 URL 可用格式
+NEWS_FEED_URL = f"https://news.google.com/rss/search?q={encoded_query}&hl=zh-TW&gl=TW&ceid=TW:zh-Hant"
+
 # ✅ 解析 Google News RSS
 def fetch_google_news(company):
     encoded_company = urllib.parse.quote(company, safe="", encoding="utf-8")  # ✅ 強制使用 UTF-8
@@ -54,7 +60,7 @@ today_date = datetime.now().strftime("%Y-%m-%d")
 
 # ✅ 解析 RSS，篩選出「當天新聞」
 def get_today_news():
-    feed = feedparser.parse(fectch_google_news)
+    feed = feedparser.parse(NEWS_FEED_URL)
     today_news = []
     
     for entry in feed.entries:
