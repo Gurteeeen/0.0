@@ -123,7 +123,6 @@ news_list = get_today_news()
 if news_list:
     print(f"✅ 今天有 {len(news_list)} 則新聞，開始寫入 Notion...")
     for news in news_list:
-        status, result = add_news_to_notion(news["title"], news["url"], news["date"])
         print(f"✅ 成功新增新聞：{news['title']}")
 else:
     print("🚫 今天沒有新聞，不寫入 Notion")
