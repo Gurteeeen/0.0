@@ -14,8 +14,6 @@ from datetime import datetime
 # ✅ API 端點（確保 DATABASE_ID 正確）
 url = f"https://api.notion.com/v1/databases/{DATABASE_ID}"
 
-# ✅ 發送請求到 Notion API
-response = requests.get(url, headers=headers)
 
 # ✅ 設定請求標頭
 headers = {
