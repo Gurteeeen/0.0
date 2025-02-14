@@ -80,7 +80,7 @@ def get_today_news():
                         })
                         company_news_count[company] += 1
                         break  # 防止一篇新聞被記錄多
-                })
+                        })
 
     print(f"📅 今日篩選後的新聞數量：{len(today_news)}")  # Debug
     return today_news
