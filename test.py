@@ -63,15 +63,19 @@ def get_today_news():
     feed = feedparser.parse(NEWS_FEED_URL)
     today_news = []
     
-    for entry in feed.entries:
-        news_date = datetime(*entry.published_parsed[:3]).strftime("%Y-%m-%d")
-        if news_date == today_date:  # 只抓當天的新聞
-            today_news.append({
-                "title": entry.title,
-                "url": entry.link,
-                "date": news_date
-            })
-    
+   for entry in feed.entries:
+        # 🟢 確保 `published_parsed` 正確解析時間
+        if hasattr(entry, 'published_parsed'):
+            news_date = datetime(*entry.published_parsed[:3]).strftime("%Y-%m-%d")
+            
+            if news_date == today_date:  # 只抓當天的新聞
+                today_news.append({
+                    "title": entry.title,
+                    "url": entry.link,
+                    "date": news_date
+                })
+
+    print(f"📅 今日篩選後的新聞數量：{len(today_news)}")  # Debug
     return today_news
 
 # ✅ 新增新聞到 Notion
