@@ -66,7 +66,7 @@ def get_today_news():
     feed = feedparser.parse(NEWS_FEED_URL)
     today_news = []
     company_news_count = {company: 0 for company in COMPANIES}
-    
+
     for entry in feed.entries:
         # 🟢 確保 `published_parsed` 正確解析時間
             if hasattr(entry, 'published_parsed'):
@@ -80,6 +80,28 @@ def get_today_news():
                             "url": entry.link,
                             "date": news_date
                         })
+                        
+        for company in COMPANIES:
+        feed = feedparser.parse(NEWS_FEED_URL.format(company=company))
+        seen_media = set()  # 記錄「已處理過的新聞媒體」
+
+        for entry in feed.entries:
+            news_date = datetime(*entry.published_parsed[:3]).strftime("%Y-%m-%d")
+            
+            if news_date == today_date:
+                media_name = entry.source.title if "source" in entry else "Unknown"  # 獲取新聞媒體名稱
+                news_key = f"{company}-{media_name}"  # 建立唯一鍵值
+                
+                if news_key not in seen_media:  # 如果這個新聞媒體沒被處理過
+                    today_news.append({
+                        "company": company,
+                        "media": media_name,
+                        "title": entry.title,
+                        "url": entry.link,
+                        "date": news_date
+                    })
+                    seen_media.add(news_key)  # 標記為已處理
+
                         company_news_count[company] += 1
                         break  # 防止一篇新聞被記錄多
 
