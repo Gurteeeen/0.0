@@ -9,7 +9,7 @@ import urllib.parse
 # ✅ 設定 Notion API 金鑰 & 資料庫 ID
 DATABASE_ID = "197cc8ff5d1c80f08a8cc2e28a1e2ab3"
 
-DISCORD_WEBHOOK_URL = "你的 Discord Webhook URL"
+DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1340390610627989584/Mn94r688fJHn-YU5za1_t0XhjrCsWF8x-eukAOdF6PRFtpjfQioZxE2G-_ZU1mIIkXtY"
 
 import feedparser  # 需要安裝 feedparser 套件
 import urllib.parse
