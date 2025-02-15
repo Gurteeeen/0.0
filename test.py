@@ -100,7 +100,7 @@ def get_today_news():
                             "url": entry.link,
                             "date": news_date
                          })
-                  seen_media.add(news_key)   # 標記為已處理
+                        seen_media.add(news_key)   # 標記為已處理
 
                         company_news_count[company] += 1
                         break  # 防止一篇新聞被記錄多
