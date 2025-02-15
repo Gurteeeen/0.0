@@ -130,7 +130,7 @@ def send_discord_notification(title, url):
         print(f"✅ 已發送新聞到 Discord：{title}")
     else:
         print(f"❌ Discord 發送失敗，狀態碼：{response.status_code}")
-    response = requests.post(DISCORD_WEBHOOK_URL, headers=headers, json=data)  # ✅ 使用 `json=data`
+    response = requests.post(DISCORD_WEBHOOK_URL, headers=headers, json=message)  # ✅ 使用 `json=data`
 
     if response.status_code == 200:
         print(f"✅ 成功新增新聞: {title}")
