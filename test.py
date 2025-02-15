@@ -46,7 +46,28 @@ def fetch_google_news(company):
     
     news_feed = feedparser.parse(rss_url)
     news_list = []
+    seen_media =set()
+    company_news_count = 0
     
+    for entry in feed.entries:
+        if hasattr(entry,'published_paresd'):
+            news_date = datetime(*entry.published_paresd[:3]).strftime("%Y-%m-%d)
+            
+            if news_date == today_date and company_news_count < 2:
+                media_name = entry.source.title if "source" in entry else "Unknown"
+                news_key = f"{company}-{media_name}"      
+            
+                if news_key not in seen_media:  # 確保不同媒體的新聞
+                    news_list.append({
+                        "company": company,
+                        "media": media_name,
+                        "title": entry.title,
+                        "url": entry.link,
+                        "date": news_date
+                    })
+                    seen_media.add(news_key)
+                    company_news_count += 1
+                                                                       
     for entry in news_feed.entries[:1]:  # 限制抓取 5 則新聞
         title = entry.title.encode("utf-8", "ignore").decode("utf-8")  # ✅ 強制 UTF-8
         link = entry.link.encode("utf-8", "ignore").decode("utf-8")  # ✅ 確保 URL 正確
