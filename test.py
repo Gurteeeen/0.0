@@ -51,7 +51,7 @@ def fetch_google_news(company):
     
     for entry in feed.entries:
         if hasattr(entry,'published_paresd'):
-            news_date = datetime(*entry.published_paresd[:3]).strftime("%Y-%m-%d)
+            news_date = datetime(*entry.published_paresd[:3]).strftime("%Y-%m-%d")
             
             if news_date == today_date and company_news_count < 2:
                 media_name = entry.source.title if "source" in entry else "Unknown"
