@@ -49,7 +49,7 @@ def fetch_google_news(company):
     seen_media =set()
     company_news_count = 0
     
-    for entry in feed.entries:
+    for entry in news_feed.entries:
         if hasattr(entry,'published_paresd'):
             news_date = datetime(*entry.published_paresd[:3]).strftime("%Y-%m-%d")
             
