@@ -82,8 +82,8 @@ def get_today_news():
                         })
                         
         for company in COMPANIES:
-        feed = feedparser.parse(NEWS_FEED_URL.format(company=company))
-        seen_media = set()  # 記錄「已處理過的新聞媒體」
+            feed = feedparser.parse(NEWS_FEED_URL.format(company=company))
+            seen_media = set()  # 記錄「已處理過的新聞媒體」
 
         for entry in feed.entries:
             news_date = datetime(*entry.published_parsed[:3]).strftime("%Y-%m-%d")
