@@ -9,6 +9,8 @@ import urllib.parse
 # ✅ 設定 Notion API 金鑰 & 資料庫 ID
 DATABASE_ID = "197cc8ff5d1c80f08a8cc2e28a1e2ab3"
 
+DISCORD_WEBHOOK_URL = "你的 Discord Webhook URL"
+
 import feedparser  # 需要安裝 feedparser 套件
 import urllib.parse
 from datetime import datetime
@@ -105,7 +107,29 @@ def add_news_to_notion(title, url, date):
             "URL": { "url": url }  # ✅ 確保這裡是正確的 URL 欄位名稱
         }
     }
+    try:
+        response = requests.post(notion_url, headers=headers, json=data)
+        response.raise_for_status()  # 若 API 回傳錯誤碼 (如 400/500) 會自動拋出例外
 
+        # ✅ 送 Discord Webhook 通知
+        send_discord_notification(title, url)
+
+        return response.status_code, response.json()
+    except requests.exceptions.RequestException as e:
+        print(f"❌ 新增新聞失敗：{title}")
+        print(f"🔴 錯誤訊息：{e}")
+        return None, None  # 避免程式崩潰
+
+# ✅ 發送新聞到 Discord
+def send_discord_notification(title, url):
+    message = {
+        "content": f"📢 **{title}**\n🔗 {url}"
+    }
+    response = requests.post(DISCORD_WEBHOOK_URL, json=message)
+    if response.status_code == 204:
+        print(f"✅ 已發送新聞到 Discord：{title}")
+    else:
+        print(f"❌ Discord 發送失敗，狀態碼：{response.status_code}")
     response = requests.post(notion_url, headers=headers, json=data)  # ✅ 使用 `json=data`
 
     if response.status_code == 200:
