@@ -66,7 +66,18 @@ def get_today_news():
     feed = feedparser.parse(NEWS_FEED_URL)
     today_news = []
     company_news_count = {company: 0 for company in COMPANIES}
+    seen_news = set()  # 🔹 存放 (標題, URL) 來過濾重複新聞
 
+    for company in COMPANIES:  
+        feed = feedparser.parse(NEWS_FEED_URL.format(company=company))
+
+        for entry in feed.entries:
+            # **如果新聞沒有日期，直接跳過**
+            if "published_parsed" not in entry:
+                continue
+                
+                news_date = datetime(*entry.published_parsed[:3]).strftime("%Y-%m-%d")
+                
     for entry in feed.entries:
         # 🟢 確保 `published_parsed` 正確解析時間
             if hasattr(entry, 'published_parsed'):
